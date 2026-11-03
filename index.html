@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PawTrail · Support</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='14' r='5.5' fill='%23ff9a3d'/><circle cx='7' cy='8' r='2.2' fill='%23ff9a3d'/><circle cx='17' cy='8' r='2.2' fill='%23ff9a3d'/><circle cx='5.5' cy='13.5' r='1.8' fill='%23ff9a3d'/><circle cx='18.5' cy='13.5' r='1.8' fill='%23ff9a3d'/></svg>">
+<style>
+  :root {
+    --bg: #0c0c12;
+    --surface: #14141c;
+    --surface-2: #1c1c28;
+    --border: #262636;
+    --text: #ececf2;
+    --muted: #9a9ab0;
+    --accent: #ff9a3d;
+    --accent-2: #5ec8e8;
+    --accent-grad: linear-gradient(135deg, #ff9a3d 0%, #5ec8e8 100%);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Noto Sans SC", "Noto Sans JP", "Noto Sans KR", "Helvetica Neue", sans-serif;
+    line-height: 1.7;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .lang-bar {
+    display: flex; justify-content: flex-end; gap: 6px;
+    padding: 20px 0 0;
+    flex-wrap: wrap;
+  }
+  .lang-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 5px 11px;
+    border-radius: 7px;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .lang-btn:hover { border-color: var(--accent); color: var(--text); }
+  .lang-btn.active {
+    background: var(--accent-grad);
+    color: #fff; border-color: transparent;
+    font-weight: 600;
+  }
+  .hero {
+    padding: 48px 0 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-mark {
+    width: 56px; height: 56px; margin: 0 auto 20px;
+    border-radius: 14px;
+    background: var(--accent-grad);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 32px rgba(255, 154, 61, 0.35);
+  }
+  .logo-mark svg { width: 34px; height: 34px; }
+  .hero h1 {
+    font-size: 28px; font-weight: 700; letter-spacing: -0.5px;
+    margin-bottom: 10px;
+  }
+  .hero p { color: var(--muted); font-size: 15px; max-width: 480px; margin: 0 auto; }
+  .contact-bar {
+    margin: 32px auto 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .contact-bar .label { color: var(--muted); font-size: 13px; }
+  .contact-bar .email { font-weight: 600; font-size: 15px; }
+  section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  h2 {
+    font-size: 19px; font-weight: 700; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2::before {
+    content: ""; width: 4px; height: 18px; border-radius: 2px;
+    background: var(--accent-grad);
+  }
+  .feat-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+  }
+  .feat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .feat h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .feat p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .feat .icon {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: var(--surface-2); margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feat .icon svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 2; }
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .faq-q {
+    padding: 16px 18px;
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 600; font-size: 14.5px;
+    user-select: none;
+  }
+  .faq-q:hover { background: var(--surface-2); }
+  .faq-q .arrow {
+    transition: transform 0.2s;
+    color: var(--muted); font-size: 12px;
+    flex-shrink: 0; margin-left: 12px;
+  }
+  .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.25s ease;
+  }
+  .faq-a-inner {
+    padding: 0 18px 16px;
+    color: var(--muted); font-size: 14px; line-height: 1.75;
+  }
+  .faq-item.open .faq-a { max-height: 600px; }
+  .faq-a-inner strong { color: var(--text); font-weight: 600; }
+  .faq-a-inner a { color: var(--accent-2); }
+  .info-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .info-block p { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+  .info-block p:last-child { margin-bottom: 0; }
+  .info-block strong { color: var(--text); }
+  footer {
+    padding: 32px 0 48px;
+    text-align: center;
+    color: var(--muted); font-size: 12.5px;
+  }
+  footer .links { margin-bottom: 10px; }
+  footer .links a { margin: 0 10px; }
+  @media (max-width: 600px) {
+    .hero { padding: 32px 0 28px; }
+    .hero h1 { font-size: 22px; }
+    .feat-grid { grid-template-columns: 1fr; }
+    .contact-bar { flex-direction: column; align-items: flex-start; }
+    h2 { font-size: 17px; }
+    .lang-btn { padding: 4px 8px; font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lang-bar" id="langBar"></div>
+  <div class="hero">
+    <div class="logo-mark">
+      <!-- 爪印 SVG -->
+      <svg viewBox="0 0 24 24" fill="white">
+        <ellipse cx="12" cy="15" rx="5.2" ry="4.3"/>
+        <circle cx="7.2" cy="8.2" r="2.2"/>
+        <circle cx="16.8" cy="8.2" r="2.2"/>
+        <circle cx="5.5" cy="13" r="1.7"/>
+        <circle cx="18.5" cy="13" r="1.7"/>
+      </svg>
+    </div>
+    <h1 data-i18n="heroTitle"></h1>
+    <p data-i18n="heroDesc"></p>
+    <div class="contact-bar">
+      <div>
+        <div class="label" data-i18n="contactLabel"></div>
+        <div class="email">shamoshuisheng@163.com</div>
+      </div>
+      <a href="mailto:shamoshuisheng@163.com" style="font-size:14px;font-weight:600;" data-i18n="contactBtn"></a>
+    </div>
+  </div>
+  <section>
+    <h2 data-i18n="featTitle"></h2>
+    <div class="feat-grid" id="featGrid"></div>
+  </section>
+  <section>
+    <h2 data-i18n="faqTitle"></h2>
+    <div id="faqList"></div>
+  </section>
+  <section>
+    <h2 data-i18n="subTitle"></h2>
+    <div class="info-block" id="subBlock"></div>
+  </section>
+  <footer>
+    <div class="links">
+      <a href="https://shamoshuisheng.github.io/privacy" target="_blank" data-i18n="privacy"></a>
+      <a href="https://shamoshuisheng.github.io/userTerms" target="_blank" data-i18n="terms"></a>
+      <a href="https://shamoshuisheng.github.io/subscription" target="_blank" data-i18n="contactUs"></a>
+    </div>
+    <div>© 2026 PawTrail. All rights reserved.</div>
+  </footer>
+</div>
+<script>
+var EMAIL = "shamoshuisheng@163.com";
+var URL_PRIVACY = "https://shamoshuisheng.github.io/privacy";
+var URL_TERMS = "https://shamoshuisheng.github.io/userTerms";
+var URL_SUBSCRIPTION = "https://shamoshuisheng.github.io/subscription";
+
+var I18N = {};
+
+// ========== 简体中文 ==========
+I18N["zh-CN"] = {
+  langName: "简体中文",
+  heroTitle: "PawTrail 技术支持",
+  heroDesc: "离线优先的宠物健康管家。疫苗提醒、用药管理、就诊记录、体重追踪，一站式记录爱宠的每一天。",
+  contactLabel: "遇到问题？发邮件给我们",
+  contactBtn: "发送邮件 →",
+  featTitle: "常用功能指引",
+  faqTitle: "常见问题 FAQ",
+  featureCards: [
+    { icon: "needle",  title: "疫苗自动提醒", desc: "添加宠物 → 进入疫苗记录 → 录入针次与日期 → 系统自动计算到期与加强针时间，到期前 7 天推送通知。" },
+    { icon: "pill",    title: "用药管理",    desc: "每日用药、剂量、频次、续方提醒一应俱全。Pro 会员支持多宠分别管理，并在首页「今日用药」卡片汇总。" },
+    { icon: "chart",   title: "体重趋势追踪", desc: "每次称重后录入体重，自动生成趋势图表。出现突然下降或快速上升时，健康评分会给您友好提示。" },
+    { icon: "doc",     title: "PDF 宠物护照",  desc: "任意页面一键导出 PDF 格式的宠物护照，包含基础信息、疫苗、用药、就诊记录，任意医院可直接使用。" }
+  ],
+  faqs: [
+    { q: "我的宠物数据会上传到服务器吗？", a: "<strong>不会。</strong>PawTrail 默认运行在完全本地的 FMDB 数据库上，所有记录仅保存在您的 iPhone 中。Pro 会员可选择开启 iCloud 加密备份。" },
+    { q: "换了一台 iPhone 如何同步数据？", a: "1. 旧设备：「我的 → iCloud 备份 → 立即备份」；<br>2. 新设备：登录同一 Apple ID，「我的 → iCloud 备份 → 恢复」即可。<br>iCloud 备份采用端到端加密，数据不会被 Apple 或开发者读取。" },
+    { q: "为什么没有收到疫苗/用药提醒通知？", a: "请依次排查：<br>1. iPhone「设置 → 通知」中确认已开启 PawTrail 的通知权限；<br>2. 进入 PawTrail「我的 → 推送通知」查看当前授权状态；<br>3. 确认疫苗/用药的「下次日期」已设置；<br>4. 如果是 Pro 会员，检查 iCloud 备份是否正常。" },
+    { q: "Face ID 忘记了 / 识别失败怎么办？", a: "Face ID 保护的是 PawTrail 内的宠物档案。连续识别失败后会弹出手势密码（如果已设置），或完全退出应用。请前往「iPhone 设置 → Face ID 与密码」重新录入指纹，或在 PawTrail「我的 → Face ID / Touch ID」里先关闭再开启。" },
+    { q: "如何添加多只宠物？", a: "首页点击右上角「+」→ 选择宠物类型（狗/猫/鸟/其他）→ 填写基础信息 → 保存。<br><strong>免费版最多 3 只，Pro 会员无上限。</strong>" },
+    { q: "PDF 宠物护照怎么导出？", a: "进入任意宠物详情页 → 右上角「更多」→「导出 PDF 护照」。生成的 PDF 可通过系统分享面板发送到微信、邮箱、或者保存到文件 App。" },
+    { q: "购买 Pro 会员后功能没有解锁？", a: "请点击「我的 → 会员中心 → 恢复购买」，使用原先购买的 Apple 账号即可重新解锁权益。如仍有问题，请将购买凭证截图发至 " + EMAIL + "，我们会协助核实。" },
+    { q: "Pro 订阅如何退款？", a: "所有订阅与内购退款由 Apple 负责处理，请前往 <a href='https://reportaproblem.apple.com' target='_blank'>reportaproblem.apple.com</a> 提交退款申请，开发者无退款权限。详见 <a href='" + URL_SUBSCRIPTION + "' target='_blank'>订阅服务协议</a>。" },
+    { q: "品种健康提示准不准确？", a: "品种健康提示基于美国兽医协会（AVMA）公开的品种常见疾病整理而成，仅供日常护理参考，<strong>不能替代专业兽医诊断</strong>。具体诊疗请咨询执业兽医。" }
+  ],
+  subTitle: "订阅与权限",
+  subLines: [
+    "<strong>免费版：</strong>最多 3 只宠物，本地存储，基础疫苗/用药/就诊记录，基础健康评分。",
+    "<strong>Pro 会员：</strong>不限宠物数、加密 iCloud 云端备份、Face ID/Touch ID 隐私锁、高级健康统计、PDF 宠物护照导出、品种专属健康提示、优先客服支持。",
+    "<strong>自动续订：</strong>订阅到期前 24 小时自动扣费，可随时在 Apple ID 设置中取消。",
+    "<strong>隐私政策：</strong><a href='" + URL_PRIVACY + "' target='_blank'>查看完整隐私政策</a>"
+  ],
+  privacy: "隐私政策",
+  terms: "用户使用条款",
+  contactUs: "订阅服务协议"
+};
+
+// ========== 繁體中文 ==========
+I18N["zh-TW"] = {
+  langName: "繁體中文",
+  heroTitle: "PawTrail 技術支援",
+  heroDesc: "離線優先的寵物健康管家。疫苗提醒、用藥管理、就診記錄、體重追蹤，一站式記錄愛寵的每一天。",
+  contactLabel: "遇到問題？寄信給我們",
+  contactBtn: "寄信 →",
+  featTitle: "常用功能指引",
+  faqTitle: "常見問題 FAQ",
+  featureCards: [
+    { icon: "needle",  title: "疫苗自動提醒", desc: "新增寵物 → 進入疫苗記錄 → 輸入針次與日期 → 系統自動計算到期與加強針時間，到期前 7 天推送通知。" },
+    { icon: "pill",    title: "用藥管理",    desc: "每日用藥、劑量、頻次、續方提醒一應俱全。Pro 會員支援多寵分別管理，並在首頁「今日用藥」卡片彙總。" },
+    { icon: "chart",   title: "體重趨勢追蹤", desc: "每次稱重後輸入體重，自動生成趨勢圖表。出現突然下降或快速上升時，健康評分會給您友好提示。" },
+    { icon: "doc",     title: "PDF 寵物護照",  desc: "任意頁面一鍵匯出 PDF 格式的寵物護照，包含基礎資訊、疫苗、用藥、就診記錄，任意醫院可直接使用。" }
+  ],
+  faqs: [
+    { q: "我的寵物資料會上傳到伺服器嗎？", a: "<strong>不會。</strong>PawTrail 預設執行在完全本機的 FMDB 資料庫上，所有記錄僅保存在您的 iPhone 中。Pro 會員可選擇開啟 iCloud 加密備份。" },
+    { q: "換了一台 iPhone 如何同步資料？", a: "1. 舊裝置：「我的 → iCloud 備份 → 立即備份」；<br>2. 新裝置：登入同一 Apple ID，「我的 → iCloud 備份 → 恢復」即可。<br>iCloud 備份採用端到端加密，資料不會被 Apple 或開發者讀取。" },
+    { q: "為什麼沒有收到疫苗/用藥提醒通知？", a: "請依序檢查：<br>1. iPhone「設定 → 通知」確認已開啟 PawTrail 通知權限；<br>2. 進入 PawTrail「我的 → 推送通知」查看目前授權狀態；<br>3. 確認疫苗/用藥的「下次日期」已設定；<br>4. 如果是 Pro 會員，檢查 iCloud 備份是否正常。" },
+    { q: "Face ID 忘記了 / 辨識失敗怎麼辦？", a: "Face ID 保護的是 PawTrail 內的寵物檔案。連續辨識失敗後會彈出手勢密碼（如果已設定），或完全退出應用。請前往「iPhone 設定 → Face ID 與密碼」重新錄入指紋，或在 PawTrail「我的 → Face ID / Touch ID」裡先關閉再開啟。" },
+    { q: "如何新增多隻寵物？", a: "首頁點擊右上角「+」→ 選擇寵物類型（狗/貓/鳥/其他）→ 填寫基礎資訊 → 儲存。<br><strong>免費版最多 3 隻，Pro 會員無上限。</strong>" },
+    { q: "PDF 寵物護照怎麼匯出？", a: "進入任意寵物詳情頁 → 右上角「更多」→「匯出 PDF 護照」。生成的 PDF 可透過系統分享面板發送到 Line、郵件、或者儲存到檔案 App。" },
+    { q: "購買 Pro 會員後功能沒有解鎖？", a: "請點擊「我的 → 會員中心 → 恢復購買」，使用原先購買的 Apple 帳號即可重新解鎖權益。如仍有問題，請將購買憑證截圖寄至 " + EMAIL + "，我們會協助核實。" },
+    { q: "Pro 訂閱如何退款？", a: "所有訂閱與內購退款由 Apple 負責處理，請前往 <a href='https://reportaproblem.apple.com' target='_blank'>reportaproblem.apple.com</a> 提交退款申請，開發者無退款權限。詳見 <a href='" + URL_SUBSCRIPTION + "' target='_blank'>訂閱服務協議</a>。" },
+    { q: "品種健康提示準確嗎？", a: "品種健康提示基於美國獸醫協會（AVMA）公開的品種常見疾病整理而成，僅供日常護理參考，<strong>不能替代專業獸醫診斷</strong>。具體診療請諮詢執業獸醫。" }
+  ],
+  subTitle: "訂閱與權限",
+  subLines: [
+    "<strong>免費版：</strong>最多 3 隻寵物，本機儲存，基礎疫苗/用藥/就診記錄，基礎健康評分。",
+    "<strong>Pro 會員：</strong>不限寵物數、加密 iCloud 雲端備份、Face ID/Touch ID 隱私鎖、進階健康統計、PDF 寵物護照匯出、品種專屬健康提示、優先客服支援。",
+    "<strong>自動續訂：</strong>訂閱到期前 24 小時自動扣費，可隨時在 Apple ID 設定中取消。",
+    "<strong>隱私權政策：</strong><a href='" + URL_PRIVACY + "' target='_blank'>查看完整隱私權政策</a>"
+  ],
+  privacy: "隱私權政策",
+  terms: "使用者使用條款",
+  contactUs: "訂閱服務協議"
+};
+
+// ========== English ==========
+I18N["en-US"] = {
+  langName: "English",
+  heroTitle: "PawTrail Support",
+  heroDesc: "Your private, offline‑first pet health companion. Never miss a vaccine booster, a medication refill, or a vet check‑up again.",
+  contactLabel: "Need help? Email us",
+  contactBtn: "Send Email →",
+  featTitle: "Quick Guides",
+  faqTitle: "FAQ",
+  featureCards: [
+    { icon: "needle",  title: "Automatic Vaccine Reminders", desc: "Add a pet → enter vaccine records with dates → PawTrail auto‑calculates expiry and booster dates. Push notification 7 days before it's due." },
+    { icon: "pill",    title: "Medication Manager",        desc: "Daily meds, dosage, frequency and refill reminders. Pro members manage unlimited pets and see a unified 'Today's Meds' card on Home." },
+    { icon: "chart",   title: "Weight Trend Tracker",      desc: "Log weight after every scale‑in. Trend charts spot sudden drops or spikes early, and your health score updates in real time." },
+    { icon: "doc",     title: "PDF Pet Passport",           desc: "One‑tap export to a beautifully formatted PDF passport accepted by any vet clinic worldwide. Share via Mail, Messages or Files." }
+  ],
+  faqs: [
+    { q: "Are my pet's health records uploaded to servers?", a: "<strong>No.</strong> PawTrail stores everything locally in an on‑device FMDB database by default. Pro members can optionally enable encrypted iCloud backup." },
+    { q: "How do I move my data to a new iPhone?", a: "1. Old device: <em>Me → iCloud Backup → Back Up Now</em>;<br>2. New device: sign in with the same Apple ID → <em>Me → iCloud Backup → Restore</em>.<br>Backups are end‑to‑end encrypted — Apple and developers cannot read them." },
+    { q: "I'm not receiving vaccine or medication reminders.", a: "Check in order:<br>1. <em>iPhone Settings → Notifications → PawTrail</em> — make sure notifications are allowed;<br>2. Inside PawTrail: <em>Me → Push Notifications</em> — check current authorization status;<br>3. Confirm the <em>Next Date</em> is set for each record;<br>4. Pro users: verify iCloud backup is healthy." },
+    { q: "Face ID / Touch ID isn't working on PawTrail.", a: "Biometrics protects your pet's records inside PawTrail. If recognition fails repeatedly, it falls back to your passcode (if set) or locks the app temporarily. Re‑enroll fingerprints in <em>iPhone Settings → Face ID & Passcode</em>, then toggle the lock off and back on inside PawTrail." },
+    { q: "How many pets can I add?", a: "Tap the <em>+</em> on the Home screen → choose species → fill in details → save.<br><strong>Free: up to 3 pets. Pro: unlimited.</strong>" },
+    { q: "How do I export the PDF Pet Passport?", a: "Open any pet's detail page → tap the <em>More</em> button in the top right → <em>Export PDF Passport</em>. The system share sheet lets you send via Mail, Messages, or save to Files." },
+    { q: "I bought Pro but premium features are still locked.", a: "Go to <em>Me → Membership → Restore Purchases</em> and sign in with the Apple ID used for the purchase. If the issue persists, send your purchase receipt to " + EMAIL + " and we'll verify it." },
+    { q: "How do I get a refund for Pro?", a: "All subscription and in‑app refunds are handled by Apple. Please visit <a href='https://reportaproblem.apple.com' target='_blank'>reportaproblem.apple.com</a> to submit a request. Developers do not have refund authority. See our <a href='" + URL_SUBSCRIPTION + "' target='_blank'>Subscription Agreement</a>." },
+    { q: "How accurate are the breed health tips?", a: "Breed tips are compiled from publicly available guidelines by the American Veterinary Medical Association (AVMA). They are for general reference only and <strong>do not replace professional veterinary diagnosis</strong>. Always consult a licensed veterinarian for specific care." }
+  ],
+  subTitle: "Subscription & Access",
+  subLines: [
+    "<strong>Free:</strong> Up to 3 pets, local storage, basic vaccine/medication/visit records, basic health score.",
+    "<strong>Pro:</strong> Unlimited pets, encrypted iCloud backup, Face ID/Touch ID lock, advanced health stats, PDF Pet Passport export, breed‑specific health tips, priority support.",
+    "<strong>Auto‑renewal:</strong> Charged 24 hours before the end of each period. Cancel anytime in your Apple ID settings.",
+    "<strong>Privacy Policy:</strong> <a href='" + URL_PRIVACY + "' target='_blank'>View full privacy policy</a>"
+  ],
+  privacy: "Privacy Policy",
+  terms: "Terms of Service",
+  contactUs: "Subscription Agreement"
+};
+
+// ========== 日本語 ==========
+I18N["ja"] = {
+  langName: "日本語",
+  heroTitle: "PawTrail サポート",
+  heroDesc: "オフライン優先のペット健康管家。ワクチン、投薬、通院、体重を一箇所で記録。愛するペットの毎日を安心管理。",
+  contactLabel: "お困りですか？メールください",
+  contactBtn: "メールを送る →",
+  featTitle: "クイックガイド",
+  faqTitle: "よくある質問 FAQ",
+  featureCards: [
+    { icon: "needle",  title: "ワクチン自動リマインダー", desc: "ペット追加 → ワクチン記録を入力 → 次回接種日を自動計算。接種予定 7 日前にプッシュ通知。" },
+    { icon: "pill",    title: "投薬管理",              desc: "服薬量・頻度・終了日・残薬切れ予告。Pro なら複数ペットを個別管理、ホームの「今日の投薬」カードで一括表示。" },
+    { icon: "chart",   title: "体重推移チャート",      desc: "体重を入力すると自動で推移グラフを生成。急な減少や急上昇を健康スコアが友好的にお知らせ。" },
+    { icon: "doc",     title: "PDF ペットパスポート",   desc: "ワンタップで PDF パスポートを出力。世界中のどの動物病院でもそのまま使えます。" }
+  ],
+  faqs: [
+    { q: "ペットの健康データはサーバーに送信されますか？", a: "<strong>いいえ。</strong>PawTrail は標準で端末内の FMDB データベースに全記録を保存します。Pro 会員のみ、任意で暗号化 iCloud バックアップを有効にできます。" },
+    { q: "機種変更したらデータを移行したい", a: "1. 旧端末：<em>マイ → iCloud バックアップ → 今すぐバックアップ</em>；<br>2. 新端末：同じ Apple ID でログイン → <em>マイ → iCloud バックアップ → 復元</em>。<br>iCloud バックアップはエンドツーエンド暗号化され、Apple も開発者も読めません。" },
+    { q: "ワクチン/投薬リマインドが届きません", a: "順に確認してください：<br>1. <em>iPhone 設定 → 通知 → PawTrail</em> で通知を許可；<br>2. アプリ内 <em>マイ → プッシュ通知</em> で現在の権限状況を確認；<br>3. 各記録の「次回日」が設定済みか確認；<br>4. Pro 会員の方は iCloud バックアップも正常かどうか確認。" },
+    { q: "Face ID / Touch ID が認識しません", a: "Face ID は PawTrail 内のペットデータを保護しています。認識に失敗が続くとパスコード（設定済みの場合）にフォールバックするか、一時的にアプリをロックします。<em>iPhone 設定 → Face ID とパスコード</em>で再登録し、PawTrail 内で一度オフにしてからオンに戻してください。" },
+    { q: "ペットは何匹まで追加できますか？", a: "ホーム画面右上の <em>+</em> をタップ → 種類を選択（犬/猫/鳥/その他）→ 情報を入力 → 保存。<br><strong>無料版：最大 3 匹。Pro 会員：無制限。</strong>" },
+    { q: "PDF ペットパスポートの書き出し方", a: "ペット詳細ページを開く → 右上の <em>その他</em> → <em>PDF パスポートを書き出し</em>。システム共有パネルからメール、メッセージ、ファイル App に保存できます。" },
+    { q: "Pro を購入したのにまだロックされています", a: "<em>マイ → 会員センター → 購入を復元</em> をタップし、購入時の Apple ID でログインしてください。解決しない場合は購入レシートを " + EMAIL + " までお送りください。" },
+    { q: "Pro サブスクリプションの返金", a: "アプリ内課金の返金はすべて Apple が処理します。<a href='https://reportaproblem.apple.com' target='_blank'>reportaproblem.apple.com</a> から申請してください。開発者に返金権限はありません。<a href='" + URL_SUBSCRIPTION + "' target='_blank'>サブスクリプション利用規約</a>を参照。" },
+    { q: "品種別健康アドバイスの正確性は？", a: "品種アドバイスは米国獣医師会（AVMA）の公開ガイドラインを基にしています。一般的な参考情報であり、<strong>専門獣医の診断を代替するものではありません</strong>。具体的な治療は必ず獣医師にご相談ください。" }
+  ],
+  subTitle: "サブスクリプションについて",
+  subLines: [
+    "<strong>無料版：</strong>最大 3 匹、ローカル保存、基本的なワクチン/投薬/通院記録、基本健康スコア。",
+    "<strong>Pro：</strong>ペット数無制限、暗号化 iCloud バックアップ、Face ID/Touch ID ロック、高度な健康統計、PDF ペットパスポート書き出し、品種別健康アドバイス、優先サポート。",
+    "<strong>自動更新：</strong>期間終了 24 時間前に課金。Apple ID 設定でいつでもキャンセル可能。",
+    "<strong>プライバシーポリシー：</strong><a href='" + URL_PRIVACY + "' target='_blank'>全文を見る</a>"
+  ],
+  privacy: "プライバシーポリシー",
+  terms: "利用規約",
+  contactUs: "サブスクリプション利用規約"
+};
+
+// ========== 한국어 ==========
+I18N["ko"] = {
+  langName: "한국어",
+  heroTitle: "포트레일 지원",
+  heroDesc: "오프라인 우선 반려동물 건강 관리 앱. 백신, 투약, 병원 방문, 체중까지 한 곳에서 기록하세요.",
+  contactLabel: "도움이 필요하신가요? 이메일을 보내주세요",
+  contactBtn: "이메일 보내기 →",
+  featTitle: "빠른 가이드",
+  faqTitle: "자주 묻는 질문 FAQ",
+  featureCards: [
+    { icon: "needle",  title: "백신 자동 리마인더", desc: "반려동물 추가 → 백신 기록 입력 → 다음 접종일 자동 계산. 예정 7일 전 푸시 알림." },
+    { icon: "pill",    title: "투약 관리",         desc: "복용량·빈도·종료일·약 떨어짐 예고. Pro는 반려동물별 개별 관리, 홈의 '오늘의 투약' 카드에서 한꺼번에 확인." },
+    { icon: "chart",   title: "체중 추이 차트",     desc: "체중을 입력하면 자동으로 추이 그래프 생성. 급감이나 급상승 시 건강 점수가 알려줍니다." },
+    { icon: "doc",     title: "PDF 반려동물 여권",   desc: "한 번의 탭으로 PDF 여권 출력. 어느 동물병원에서나 그대로 사용할 수 있습니다." }
+  ],
+  faqs: [
+    { q: "반려동물 데이터가 서버로 업로드되나요?", a: "<strong>아니요.</strong> 포트레일은 기본적으로 기기 내 FMDB 데이터베이스에 모든 기록을 저장합니다. Pro 회원만 선택적으로 암호화 iCloud 백업을 켤 수 있습니다." },
+    { q: "새 iPhone으로 데이터 옮기기", a: "1. 기기: <em>마이 → iCloud 백업 → 지금 백업</em>;<br>2. 새 기기: 같은 Apple ID로 로그인 → <em>마이 → iCloud 백업 → 복원</em>. 백업은 종단 간 암호화되어 Apple과 개발자도 읽을 수 없습니다." },
+    { q: "백신/투약 알림이 오지 않습니다", a: "순서대로 확인하세요:<br>1. <em>iPhone 설정 → 알림 → 포트레일</em>에서 알림 허용;<br>2. 앱 내 <em>마이 → 푸시 알림</em>에서 현재 권한 상태 확인;<br>3. 각 기록의 '다음 날짜'가 설정됐는지 확인;<br>4. Pro 회원은 iCloud 백업도 확인." },
+    { q: "Face ID / Touch ID 인식 실패", a: "연속 인식 실패 시 비밀번호로 폴백하거나 앱을 일시 잠급니다. <em>iPhone 설정 → Face ID와 비밀번호</em>에서 다시 등록하고, 앱 내에서 한 번 껐다 켜보세요." },
+    { q: "반려동물은 몇 마리까지 등록 가능?", a: "홈 화면 우측 상단 <em>+</em> 탭 → 종류 선택 → 정보 입력 → 저장.<br><strong>무료: 최대 3마리. Pro: 무제한.</strong>" },
+    { q: "PDF 반려동물 여권 내보내기", a: "반려동물 상세 페이지 → 우측 상단 <em>더보기</em> → <em>PDF 여권 내보내기</em>. 시스템 공유 패널에서 메일, 메시지, 파일 앱으로 저장 가능." },
+    { q: "Pro 구매 후 기능이 잠겨 있음", a: "<em>마이 → 멤버 센터 → 구매 복원</em>을 누르고 구매한 Apple ID로 로그인하세요. 해결되지 않으면 구매 영수증을 " + EMAIL + "로 보내주세요." },
+    { q: "Pro 구독 환불 신청", a: "모든 인앱 구매 환불은 Apple에서 처리합니다. <a href='https://reportaproblem.apple.com' target='_blank'>reportaproblem.apple.com</a>에서 신청하세요. 개발자는 환불 권한이 없습니다. <a href='" + URL_SUBSCRIPTION + "' target='_blank'>구독 서비스 약관</a> 참고." },
+    { q: "견종별 건강 팁 정확도는?", a: "견종 팁은 미국 수의사회(AVMA) 공개 가이드를 기반으로 작성되었습니다. 일반적인 참고 자료이며, <strong>전문 수의사 진단을 대체하지 않습니다</strong>. 구체적인 진료는 반드시 수의사와 상담하세요." }
+  ],
+  subTitle: "구독 및 권한",
+  subLines: [
+    "<strong>무료:</strong> 최대 3마리, 로컬 저장, 기본 백신/투약/병원 기록, 기본 건강 점수.",
+    "<strong>Pro:</strong> 반려동물 수 무제한, 암호화 iCloud 백업, Face ID/Touch ID 잠금, 고급 건강 통계, PDF 여권 내보내기, 견종별 건강 팁, 우선 지원.",
+    "<strong>자동 갱신:</strong> 기간 종료 24시간 전 결제. Apple ID 설정에서 언제든 취소 가능.",
+    "<strong>개인정보 처리방침:</strong><a href='" + URL_PRIVACY + "' target='_blank'>전문 보기</a>"
+  ],
+  privacy: "개인정보 처리방침",
+  terms: "서비스 약관",
+  contactUs: "구독 서비스 약관"
+};
+
+// ========== Deutsch ==========
+I18N["de-DE"] = {
+  langName: "Deutsch",
+  heroTitle: "PawTrail Support",
+  heroDesc: "Ihr privates, offline‑erstes Haustier‑Gesundheitsbuch. Nie wieder Auffrischungen, Rezepte oder Termine vergessen.",
+  contactLabel: "Brauchen Sie Hilfe? Schreiben Sie uns",
+  contactBtn: "E‑Mail senden →",
+  featTitle: "Kurzanleitungen",
+  faqTitle: "Häufig gestellte Fragen FAQ",
+  featureCards: [
+    { icon: "needle",  title: "Automatische Impferinnerung", desc: "Haustier anlegen → Impfungen erfassen → PawTrail berechnet Ablauf und Auffrischung automatisch. Push 7 Tage vorher." },
+    { icon: "pill",    title: "Medikamenten‑Verwaltung",   desc: "Dosierung, Häufigkeit, Enddatum und Nachfüll‑Erinnerung. Pro: unbegrenzte Tiere und zentrale Medikamenten‑Übersicht." },
+    { icon: "chart",   title: "Gewichts‑Trendchart",       desc: "Gewicht nach jedem Wiegen eingeben. Trendchart erkennt frühzeitig plötzliche Abfälle oder Anstiege." },
+    { icon: "doc",     title: "PDF Haustier‑Pass",         desc: "Ein‑Tap‑Export zu einem PDF‑Pass, der von Tierarztpraxen weltweit akzeptiert wird." }
+  ],
+  faqs: [
+    { q: "Werden meine Haustierdaten hochgeladen?", a: "<strong>Nein.</strong> PawTrail speichert standardmäßig alles lokal in einer FMDB‑Datenbank auf Ihrem Gerät. Pro‑Nutzer können optional verschlüsseltes iCloud‑Backup aktivieren." },
+    { q: "Wie ziehe ich Daten auf ein neues iPhone?", a: "1. Altgerät: <em>Mein → iCloud‑Backup → Jetzt sichern</em>;<br>2. Neugerät: mit gleichem Apple ID anmelden → <em>Mein → iCloud‑Backup → Wiederherstellen</em>." },
+    { q: "Ich erhalte keine Impf‑ oder Medikamentenerinnerungen", a: "Prüfe nacheinander:<br>1. <em>iPhone‑Einstellungen → Mitteilungen → PawTrail</em> aktiviert?<br>2. In PawTrail <em>Mein → Push‑Mitteilungen</em> prüfen;<br>3. Für jeden Datensatz das <em>Nächste Datum</em> gesetzt?" },
+    { q: "Face ID / Touch ID funktioniert nicht", a: "Face ID schützt die Haustierdaten. Bei wiederholtem Fehlschlag wird nach Passcode gefragt oder die App sperrt kurz. <em>iPhone‑Einstellungen → Face ID & Code</em> neu einrichten." },
+    { q: "Wie viele Tiere kann ich anlegen?", a: "Auf dem Home‑Bildschirm auf <em>+</em> tippen → Art wählen → speichern.<br><strong>Kostenlos: bis zu 3 Tiere. Pro: unbegrenzt.</strong>" },
+    { q: "PDF Haustier‑Pass exportieren", a: "Detailseite öffnen → <em>Mehr</em> oben rechts → <em>PDF‑Pass exportieren</em>. Per Mail, Nachrichten oder Dateien‑App teilen." },
+    { q: "Pro gekauft, aber noch gesperrt", a: "<em>Mein → Mitgliedschaft → Käufe wiederherstellen</em> mit ursprünglichem Apple‑Account. Bei Problemen Kaufbeleg an " + EMAIL + " senden." },
+    { q: "Rückerstattung beantragen", a: "Alle In‑App‑Kauf‑Rückerstattungen werden von Apple bearbeitet. <a href='https://reportaproblem.apple.com' target='_blank'>reportaproblem.apple.com</a>. Entwickler haben kein Rückerstattungsrecht. Siehe <a href='" + URL_SUBSCRIPTION + "' target='_blank'>Abonnement‑Vereinbarung</a>." },
+    { q: "Wie genau sind die Rassen‑Gesundheitstipps?", a: "Tipps basieren auf öffentlichen Richtlinien der AVMA. Sie dienen als allgemeine Orientierung und <strong>ersetzen keinen tierärztlichen Rat</strong>." }
+  ],
+  subTitle: "Abo & Zugriff",
+  subLines: [
+    "<strong>Kostenlos:</strong> Bis zu 3 Tiere, lokale Speicherung, Basis‑Impf/Medikamente/Besuche, Basis‑Gesundheitsscore.",
+    "<strong>Pro:</strong> Unbegrenzte Tiere, verschlüsseltes iCloud‑Backup, Face ID/Touch ID‑Schloss, erweiterte Gesundheitsstatistik, PDF‑Pass‑Export, rassespezifische Tipps, Priority‑Support.",
+    "<strong>Automatische Verlängerung:</strong> 24 Stunden vor Ablauf wird abgebucht. Jederzeit in Apple‑ID‑Einstellungen kündbar.",
+    "<strong>Datenschutz:</strong> <a href='" + URL_PRIVACY + "' target='_blank'>Vollständige Datenschutzerklärung ansehen</a>"
+  ],
+  privacy: "Datenschutz",
+  terms: "Nutzungsbedingungen",
+  contactUs: "Abonnement‑Vereinbarung"
+};
+
+// ========== Français ==========
+I18N["fr-FR"] = {
+  langName: "Français",
+  heroTitle: "Support PawTrail",
+  heroDesc: "Votre carnet de santé animal privé et hors ligne. N'oubliez plus jamais un rappel de vaccin, un renouvellement ou une visite vétérinaire.",
+  contactLabel: "Besoin d'aide ? Écrivez‑nous",
+  contactBtn: "Envoyer un e‑mail →",
+  featTitle: "Guides rapides",
+  faqTitle: "Questions fréquentes FAQ",
+  featureCards: [
+    { icon: "needle",  title: "Rappels automatiques de vaccins", desc: "Ajoutez un animal → saisissez les vaccins → PawTrail calcule les dates d'expiration et de rappel. Notification push 7 jours avant l'échéance." },
+    { icon: "pill",    title: "Gestion des médicaments",         desc: "Posologie, fréquence, fin de traitement et alertes de renouvellement. Pro : animaux illimités et carte 'Médicaments du jour' sur l'accueil." },
+    { icon: "chart",   title: "Historique de poids",             desc: "Enregistrez chaque pesée. Les graphiques détectent précocement une perte ou une hausse anormale, et le score santé se met à jour." },
+    { icon: "doc",     title: "Passeport animal PDF",            desc: "Export PDF en un tap, accepté par toutes les cliniques vétérinaires du monde. Partagez via Mail, Messages ou Fichiers." }
+  ],
+  faqs: [
+    { q: "Mes données sont‑elles envoyées sur des serveurs ?", a: "<strong>Non.</strong> PawTrail stocke tout localement dans une base FMDB sur votre appareil. Les membres Pro peuvent activer le sauvegarde iCloud chiffrée." },
+    { q: "Comment transférer les données sur un nouvel iPhone ?", a: "1. Ancien appareil : <em>Moi → Sauvegarde iCloud → Sauvegarder maintenant</em> ;<br>2. Nouveau : connectez‑vous avec le même Apple ID → <em>Moi → Sauvegarde iCloud → Restaurer</em>." },
+    { q: "Je ne reçois pas les rappels", a: "Vérifiez dans l'ordre :<br>1. <em>Réglages iPhone → Notifications → PawTrail</em> activé ;<br>2. Dans l'app : <em>Moi → Notifications push</em> ;<br>3. La <em>date suivante</em> est bien renseignée pour chaque enregistrement." },
+    { q: "Face ID / Touch ID ne fonctionne pas", a: "Face ID protège les données animales. Après plusieurs échecs, l'app demande le code ou se verrouille temporairement. Réenregistrez vos empreintes dans <em>Réglages → Face ID et code</em>." },
+    { q: "Combien d'animaux puis‑je ajouter ?", a: "Sur l'écran d'accueil, tapez <em>+</em> → choisissez l'espèce → enregistrez.<br><strong>Gratuit : jusqu'à 3 animaux. Pro : illimité.</strong>" },
+    { q: "Exporter le passeport PDF", a: "Ouvrez la fiche d'un animal → bouton <em>Plus</em> en haut à droite → <em>Exporter le passeport PDF</em>. Partagez via Mail, Messages ou Fichiers." },
+    { q: "Pro acheté mais fonctionnalités verrouillées", a: "Allez dans <em>Moi → Abonnement → Restaurer les achats</em> avec le bon compte Apple. En cas de problème, envoyez votre reçu à " + EMAIL + "." },
+    { q: "Demander un remboursement", a: "Tous les remboursements d'achats intégrés sont traités par Apple. <a href='https://reportaproblem.apple.com' target='_blank'>reportaproblem.apple.com</a>. Les développeurs n'ont pas de droit de remboursement. Voir <a href='" + URL_SUBSCRIPTION + "' target='_blank'>Contrat d'abonnement</a>." },
+    { q: "Fiabilité des conseils par race ?", a: "Les conseils sont basés sur les lignes directrices publiques de l'AVMA (Association Médicale Vétérinaire Américaine). Ils servent de référence générale et <strong>ne remplacent pas un diagnostic vétérinaire professionnel</strong>." }
+  ],
+  subTitle: "Abonnement & accès",
+  subLines: [
+    "<strong>Gratuit :</strong> Jusqu'à 3 animaux, stockage local, carnets de base vaccins/médicaments/visites, score santé de base.",
+    "<strong>Pro :</strong> Animaux illimités, sauvegarde iCloud chiffrée, verrouillage Face ID/Touch ID, statistiques avancées, export PDF, conseils par race, support prioritaire.",
+    "<strong>Renouvellement automatique :</strong> Facturé 24 h avant la fin. Résiliable dans les réglages identifiant Apple.",
+    "<strong>Politique de confidentialité :</strong> <a href='" + URL_PRIVACY + "' target='_blank'>Voir la politique complète</a>"
+  ],
+  privacy: "Confidentialité",
+  terms: "Conditions d'utilisation",
+  contactUs: "Contrat d'abonnement"
+};
+
+// ========== ICONS ==========
+var ICONS = {
+  needle: '<svg viewBox="0 0 24 24"><line x1="4" y1="20" x2="20" y2="4"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/></svg>',
+  pill: '<svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="4"/><line x1="12" y1="8" x2="12" y2="16"/></svg>',
+  chart: '<svg viewBox="0 0 24 24"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>',
+  doc: '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
+};
+
+// ========== RENDER ==========
+var LANGS = ["zh-CN", "zh-TW", "en-US", "ja", "ko", "de-DE", "fr-FR"];
+var currentLang = "zh-CN";
+var langBarEl = document.getElementById("langBar");
+var featGridEl = document.getElementById("featGrid");
+var faqListEl = document.getElementById("faqList");
+var subBlockEl = document.getElementById("subBlock");
+
+LANGS.forEach(function (lang) {
+  var item = I18N[lang];
+  var btn = document.createElement("button");
+  btn.className = "lang-btn";
+  btn.textContent = item.langName;
+  btn.dataset.lang = lang;
+  btn.onclick = function () { setLang(lang); };
+  langBarEl.appendChild(btn);
+});
+
+function renderFeats(list) {
+  var html = "";
+  list.forEach(function (f) {
+    html += '<div class="feat">' +
+      '<div class="icon">' + ICONS[f.icon] + '</div>' +
+      '<h3>' + f.title + '</h3>' +
+      '<p>' + f.desc + '</p>' +
+      '</div>';
+  });
+  return html;
+}
+
+function renderFaqs(list) {
+  var html = "";
+  list.forEach(function (f) {
+    html += '<div class="faq-item">' +
+      '<div class="faq-q" onclick="this.parentElement.classList.toggle(\'open\')">' +
+      '<span>' + f.q + '</span>' +
+      '<span class="arrow">▼</span>' +
+      '</div>' +
+      '<div class="faq-a"><div class="faq-a-inner">' + f.a + '</div></div>' +
+      '</div>';
+  });
+  return html;
+}
+
+function setLang(langKey) {
+  currentLang = langKey;
+  var t = I18N[langKey] || I18N["en-US"];
+  document.documentElement.lang = langKey;
+  document.title = t.heroTitle + " | PawTrail";
+
+  document.querySelectorAll(".lang-btn").forEach(function (b) {
+    b.classList.toggle("active", b.dataset.lang === langKey);
+  });
+
+  document.querySelector(".hero h1").textContent = t.heroTitle;
+  document.querySelector(".hero p").innerHTML = t.heroDesc;
+  document.querySelector(".contact-bar .label").textContent = t.contactLabel;
+  document.querySelector(".contact-bar a").textContent = t.contactBtn;
+
+  featGridEl.innerHTML = renderFeats(t.featureCards);
+  faqListEl.innerHTML = renderFaqs(t.faqs);
+
+  var subHtml = "";
+  t.subLines.forEach(function (line) { subHtml += "<p>" + line + "</p>"; });
+  subBlockEl.innerHTML = subHtml;
+
+  var footerLinks = document.querySelectorAll("footer .links a");
+  footerLinks[0].textContent = t.privacy;
+  footerLinks[1].textContent = t.terms;
+  footerLinks[2].textContent = t.contactUs;
+
+  localStorage.setItem("support_lang", langKey);
+}
+
+function detectBrowserLang() {
+  var nav = (navigator.language || navigator.userLanguage || "en").toLowerCase();
+  if (nav.startsWith("zh")) {
+    if (nav.indexOf("tw") !== -1 || nav.indexOf("hk") !== -1) return "zh-TW";
+    return "zh-CN";
+  }
+  for (var i = 0; i < LANGS.length; i++) {
+    var l = LANGS[i];
+    if (nav.indexOf(l.toLowerCase()) === 0) return l;
+  }
+  return "en-US";
+}
+
+(function init() {
+  var saved = localStorage.getItem("support_lang");
+  var initLang = (saved && I18N[saved]) ? saved : detectBrowserLang();
+  setLang(initLang);
+})();
+</script>
+</body>
+</html>
